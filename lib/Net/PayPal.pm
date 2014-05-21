@@ -11,15 +11,31 @@ has 'key';
 
 has 'secret';
 
-has 'redirect_uri' => 'http://localhost:8081/callback';
+has 'use_sandbox' => 1;
 
-has 'api_host' => 'https://api.sandbox.paypal.com/';
+has 'redirect_uri' => 'http://localhost:3000/authorize/callback';
+
+has 'authorization_endpoint' => sub {
+  my $self = shift;
+  if ($self->use_sandbox) {
+    'https://www.sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize';
+  } else {
+    'https://www.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize';
+  }
+};
+
+has 'api_host' => sub {
+  my $self = shift;
+  if ($self->use_sandbox) {
+    'https://api.sandbox.paypal.com/';
+  } else {
+    'https://api.paypal.com/';
+  }
+};
 
 has 'access_token_path' => 'v1/oauth2/token';
 
-has 'authorize_path' => 'v1/oauth2/authorize';
-
-has 'scope' => 'openid profile';
+has 'scope' => 'openid profile email address';
 
 has 'response_type' => 'code';
 
@@ -45,16 +61,15 @@ has 'ua' => sub {
     return $ua;
 };
 
-sub verify_signature {
-
-    # TODO: fix verify
-    my ($self, $payload) = @_;
-    my $sha = Digest::SHA->new(256);
-    $sha->hmac_sha256($self->secret);
-    $sha->add($payload->{id});
-    $sha->add($payload->{issued_at});
-    $sha->b64digest eq $payload->{signature};
-}
+has 'nonce' => sub {
+    my $self = shift;
+    my @a = ('A' .. 'Z', 'a' .. 'z', 0 .. 9);
+    my $nonce = '';
+    for (0 .. 31) {
+        $nonce .= $a[rand(scalar(@a))];
+    }
+    return $nonce;
+};
 
 sub refresh {
     my ($self, $refresh_token) = @_;
@@ -79,8 +94,10 @@ sub authenticate {
 sub authorize_url {
     my $self = shift;
     $self->params->{response_type} = 'code';
+    $self->params->{scope} = $self->scope;
+    $self->params->{nonce} = $self->nonce;
     my $url = Mojo::URL->new($self->api_host)
-      ->path($self->authorize_path)
+      ->path($self->authorization_endpoint)
       ->query($self->params);
     return $url->to_string;
 }
