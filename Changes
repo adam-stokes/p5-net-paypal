@@ -1,3 +1,27 @@
-Revision history for {{$dist->name}}
+==================================================
+Changes from 2013-05-21 00:00:00 +0000 to present.
+==================================================
 
-{{$NEXT}}
+------------------------------------------
+version 0.001 at 2014-05-21 20:12:09 +0000
+------------------------------------------
+
+  Change: 6254548bca04bdea3674e5b13264e17bcf1baaa5
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-05-21 16:11:28 +0000
+
+    setup groundwork
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+  Change: 35ecc49ffbda2f97fb1c6a3a1e78230d5aaf91f6
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-05-21 15:56:49 +0000
+
+    init
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+================
+End of releases.
+================
