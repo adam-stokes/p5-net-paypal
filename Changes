@@ -3,8 +3,16 @@ Changes from 2013-05-22 00:00:00 +0000 to present.
 ==================================================
 
 ----------------------------------------
-version 1.1 at 2014-05-22 14:25:24 +0000
+version 1.1 at 2014-05-22 14:56:15 +0000
 ----------------------------------------
+
+  Change: 3c87c62279a4a529990d8d9c5fb2156e1443d919
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-05-22 10:56:11 +0000
+
+    add access token call
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
 
   Change: 2600d85be43b1902fca1792531a56f94ca657138
   Author: Adam Stokes <adam.stokes@ubuntu.com>
