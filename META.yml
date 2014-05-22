@@ -19,8 +19,9 @@ meta-spec:
   version: '1.4'
 name: Net-PayPal
 requires:
+  DDP: '0'
   Mojo::Base: '0'
   Mojo::Parameters: '0'
   Mojo::URL: '0'
   Mojo::UserAgent: '0'
-version: '0.001'
+version: '1.0'

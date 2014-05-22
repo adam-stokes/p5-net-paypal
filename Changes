@@ -1,10 +1,26 @@
 ==================================================
-Changes from 2013-05-21 00:00:00 +0000 to present.
+Changes from 2013-05-22 00:00:00 +0000 to present.
 ==================================================
 
-------------------------------------------
-version 0.001 at 2014-05-21 20:12:09 +0000
-------------------------------------------
+----------------------------------------
+version 1.0 at 2014-05-22 03:20:58 +0000
+----------------------------------------
+
+  Change: 5f6ce9fc57b896e504d83c9fe449d76dc1b60bce
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-05-21 17:38:37 +0000
+
+    fix endpoints
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+  Change: fe1b3dd128698eac620d1a0a02df6ec891e62e7c
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-05-21 16:12:19 +0000
+
+    add build info
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
 
   Change: 6254548bca04bdea3674e5b13264e17bcf1baaa5
   Author: Adam Stokes <adam.stokes@ubuntu.com>

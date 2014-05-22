@@ -4,7 +4,7 @@ Net::PayPal - oauth2 authentication library
 
 # VERSION
 
-version 0.001
+version 1.0
 
 # AUTHOR
 

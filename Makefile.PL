@@ -20,6 +20,7 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Net::PayPal",
   "PREREQ_PM" => {
+    "DDP" => 0,
     "Mojo::Base" => 0,
     "Mojo::Parameters" => 0,
     "Mojo::URL" => 0,
@@ -33,7 +34,7 @@ my %WriteMakefileArgs = (
     "Test::More" => 0,
     "Test::NoTabs" => 0
   },
-  "VERSION" => "0.001",
+  "VERSION" => "1.0",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -41,6 +42,7 @@ my %WriteMakefileArgs = (
 
 
 my %FallbackPrereqs = (
+  "DDP" => 0,
   "Mojo::Base" => 0,
   "Mojo::Parameters" => 0,
   "Mojo::URL" => 0,

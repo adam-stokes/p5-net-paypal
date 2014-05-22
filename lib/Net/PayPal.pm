@@ -6,6 +6,7 @@ use Mojo::Base -base;
 use Mojo::UserAgent;
 use Mojo::URL;
 use Mojo::Parameters;
+use DDP;
 
 has 'key';
 
@@ -24,27 +25,33 @@ has 'authorization_endpoint' => sub {
   }
 };
 
+has 'tokenservice' => sub {
+  my $self = shift;
+  my $url = Mojo::URL->new;
+  $url->scheme('https');
+  $url->userinfo(sprintf("%s:%s", $self->key, $self->secret));
+  $url->host($self->api_host);
+  $url->path('v1/identity/openidconnect/tokenservice');
+  return $url;
+};
+
 has 'api_host' => sub {
   my $self = shift;
   if ($self->use_sandbox) {
-    'https://api.sandbox.paypal.com/';
+    'api.sandbox.paypal.com';
   } else {
-    'https://api.paypal.com/';
+    'api.paypal.com';
   }
 };
 
-has 'access_token_path' => 'v1/oauth2/token';
-
-has 'scope' => 'openid profile email address';
+has 'scope' => 'profile email address phone';
 
 has 'response_type' => 'code';
 
 has 'params' => sub {
     my $self = shift;
     return {
-        client_id => $self->key,
-        client_secret => $self->secret,
-        redirect_uri => $self->redirect_uri,
+      redirect_uri => $self->redirect_uri
     };
 };
 
@@ -57,7 +64,7 @@ has 'json' => sub {
 has 'ua' => sub {
     my $self = shift;
     my $ua = Mojo::UserAgent->new;
-    $ua->transactor->name("Net::PayPal/$Net::PayPal::VERSION");
+    $ua->transactor->name("Net::PayPal/1.0");
     return $ua;
 };
 
@@ -75,54 +82,31 @@ sub refresh {
     my ($self, $refresh_token) = @_;
     $self->params->{refresh_token} = $refresh_token;
     $self->params->{grant_type} = 'refresh_token';
-    return $self->oauth2;
-}
-
-sub password {
-    my $self = shift;
-    $self->params->{grant_type} = 'password';
-    return $self->oauth2;
+    my $tx =
+      $self->ua->post(
+        $self->tokenservice->to_string => form => $self->params);
+    return $self->json->decode($tx->res->body);
 }
 
 sub authenticate {
     my ($self, $code) = @_;
-    $self->params->{code} = $code;
+    $self->params->{code}       = $code;
     $self->params->{grant_type} = 'authorization_code';
-    return $self->oauth2;
+    my $tx =
+      $self->ua->post(
+        $self->tokenservice->to_string => form => $self->params);
+    return $self->json->decode($tx->res->body);
 }
 
 sub authorize_url {
     my $self = shift;
     $self->params->{response_type} = 'code';
+    $self->params->{client_id} = $self->key;
     $self->params->{scope} = $self->scope;
     $self->params->{nonce} = $self->nonce;
-    my $url = Mojo::URL->new($self->api_host)
-      ->path($self->authorization_endpoint)
+    my $url = Mojo::URL->new($self->authorization_endpoint)
       ->query($self->params);
     return $url->to_string;
 }
 
-sub access_token_url {
-    my $self = shift;
-    my $url = Mojo::URL->new($self->api_host)->path($self->access_token_path);
-    return $url->to_string;
-}
-
-sub oauth2 {
-    my $self = shift;
-
-    $self->params->{grant_type} = 'client_credentials';
-
-    my $tx =
-      $self->ua->post($self->access_token_url => form => $self->params);
-
-    die $tx->res->body unless $tx->success;
-
-    my $payload = $self->json->decode($tx->res->body);
-
-  # TODO: fix verify signature
-  # die "Unable to verify signature" unless $self->verify_signature($payload);
-
-    return $payload;
-}
 1;

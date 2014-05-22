@@ -1,3 +1,4 @@
+requires "DDP" => "0";
 requires "Mojo::Base" => "0";
 requires "Mojo::Parameters" => "0";
 requires "Mojo::URL" => "0";
