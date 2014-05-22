@@ -13,7 +13,6 @@ app->helper(
     'pp' => sub {
         my $self = shift;
         Net::PayPal->new(
-            sandbox => 0,
             'key' => $ENV{PPKEY},
             'secret' => $ENV{PPSECRET},
             'redirect_uri' => 'http://localhost:3000/authorize/callback',
