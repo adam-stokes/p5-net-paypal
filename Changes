@@ -3,8 +3,26 @@ Changes from 2013-05-22 00:00:00 +0000 to present.
 ==================================================
 
 ----------------------------------------
-version 1.0 at 2014-05-22 03:21:31 +0000
+version 1.1 at 2014-05-22 14:25:24 +0000
 ----------------------------------------
+
+  Change: 2600d85be43b1902fca1792531a56f94ca657138
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-05-21 23:22:59 +0000
+
+    update auth eg
+
+    Signed-off-by: Adam Stokes <adam.stokes@ubuntu.com> 
+
+----------------------------------------
+version 1.0 at 2014-05-22 03:21:34 +0000
+----------------------------------------
+
+  Change: 088d817ad2d9434caf757c192ad011c17135857a
+  Author: Adam Stokes <adam.stokes@ubuntu.com>
+  Date : 2014-05-21 23:21:34 +0000
+
+    v1.0 
 
   Change: 99c78e3ccb4ff65d24a2b9b2074147e2c26119d6
   Author: Adam Stokes <adam.stokes@ubuntu.com>

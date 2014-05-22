@@ -22,6 +22,7 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "DDP" => 0,
     "Mojo::Base" => 0,
+    "Mojo::Log" => 0,
     "Mojo::Parameters" => 0,
     "Mojo::URL" => 0,
     "Mojo::UserAgent" => 0
@@ -34,7 +35,7 @@ my %WriteMakefileArgs = (
     "Test::More" => 0,
     "Test::NoTabs" => 0
   },
-  "VERSION" => "1.0",
+  "VERSION" => "1.1",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -44,6 +45,7 @@ my %WriteMakefileArgs = (
 my %FallbackPrereqs = (
   "DDP" => 0,
   "Mojo::Base" => 0,
+  "Mojo::Log" => 0,
   "Mojo::Parameters" => 0,
   "Mojo::URL" => 0,
   "Mojo::UserAgent" => 0,

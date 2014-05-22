@@ -6,7 +6,13 @@ use Mojo::Base -base;
 use Mojo::UserAgent;
 use Mojo::URL;
 use Mojo::Parameters;
+use Mojo::Log;
 use DDP;
+
+has 'log' => sub {
+  my $self = shift;
+  return Mojo::Log->new;
+};
 
 has 'key';
 
@@ -15,6 +21,8 @@ has 'secret';
 has 'use_sandbox' => 1;
 
 has 'redirect_uri' => 'http://localhost:3000/authorize/callback';
+
+has 'access_token_endpoint' => 'v1/oauth2/token';
 
 has 'authorization_endpoint' => sub {
   my $self = shift;
@@ -95,6 +103,19 @@ sub authenticate {
     my $tx =
       $self->ua->post(
         $self->tokenservice->to_string => form => $self->params);
+    return $self->json->decode($tx->res->body);
+}
+
+sub access_token {
+    my $self = shift;
+    my $url  = Mojo::URL->new;
+    $url->scheme('https');
+    $url->userinfo(sprintf("%s:%s", $self->key, $self->secret));
+    $url->host($self->api_host);
+    $url->path($self->access_token_endpoint);
+    $self->params->{grant_type} = 'client_credentials';
+    $self->log->debug("Getting access token from: " . $url->host);
+    my $tx = $self->ua->post($url->to_string => form => $self->params);
     return $self->json->decode($tx->res->body);
 }
 
